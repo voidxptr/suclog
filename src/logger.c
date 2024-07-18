@@ -2,25 +2,29 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-FILE* _logFilePtr;
+FILE* logFilePtr;
 char logFlags = (char)(LOGLevelAll | LOGFlagEnabled | LOGFlagFile);
 
 
-void _setupLogFile(char flags)
+void setLogFlags(char flags)
 {
 	logFlags = flags;
-	if(logFlags & LOGFlagFile)
-	{
-		_logFilePtr = fopen("./log.txt", "a");
-
-		if(ferror(_logFilePtr))
-			printf("%sError encountered during file opening.%s\n", ANSI_COLOR_RED, ANSI_COLOR_RESET);
-	}
 }
 
-void _closeLogFile()
+void openLogFile(char* filename, char forceEnableLogFile)
 {
-	if(_logFilePtr) fclose(_logFilePtr);
+	if(forceEnableLogFile)
+		logFlags |= LOGFlagFile;
+	
+	logFilePtr = fopen(filename, "a");
+
+	if(ferror(logFilePtr))
+		printf("%sError encountered during file opening.%s\n", ANSI_COLOR_RED, ANSI_COLOR_RESET);
+}
+
+void closeLogFile()
+{
+	if(logFilePtr) fclose(logFilePtr);
 }
 
 
@@ -35,11 +39,11 @@ void vlogColored(char *fmt, char *ansiCol, va_list args)
 
 	vprintf(fmt, args_cpy);
 	va_end(args_cpy);
-	if(_logFilePtr && (logFlags & LOGFlagFile))
+	if(logFilePtr && (logFlags & LOGFlagFile))
 	{
-		vfprintf(_logFilePtr, fmt, args);
-		fprintf(_logFilePtr, "\n");
-		if(ferror(_logFilePtr))
+		vfprintf(logFilePtr, fmt, args);
+		fprintf(logFilePtr, "\n");
+		if(ferror(logFilePtr))
 			printf("%sError encountered during file writing.%s\n", ANSI_COLOR_RED, ANSI_COLOR_RESET);
 	}
 
@@ -52,10 +56,10 @@ void logLocation(char* file, int line)
 
 
 	printf("File '%s' at Line %d: ", file, line);
-	if(_logFilePtr && (logFlags & LOGFlagFile))
+	if(logFilePtr && (logFlags & LOGFlagFile))
 	{
-		fprintf(_logFilePtr, "File '%s' at Line %d: ", file, line);
-		if(ferror(_logFilePtr))
+		fprintf(logFilePtr, "File '%s' at Line %d: ", file, line);
+		if(ferror(logFilePtr))
 			printf("%sError encountered during file writing.%s\n", ANSI_COLOR_RED, ANSI_COLOR_RESET);
 	}
 }

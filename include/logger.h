@@ -12,7 +12,6 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-extern FILE* _logFilePtr;
 extern char logFlags;
 // L == Level; E = Enabled; F = File; P = LocationLogging
 // E|F| | | |P|L|L|
@@ -30,8 +29,9 @@ extern char logFlags;
 #define LOGLevelMin		0b00
 
 
-void _setupLogFile(char flags);
-void _closeLogFile();
+void setLogFlags(char flags);
+void openLogFile(char* filename, char forceEnableLogFile);
+void closeLogFile();
 
 
 void vlogColored(char* fmt, char* ansiCol, va_list args);
