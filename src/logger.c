@@ -1,4 +1,4 @@
-#include "../include/logger.h"
+#include "../include/suclog.h"
 #include <stdarg.h>
 #include <stdio.h>
 
