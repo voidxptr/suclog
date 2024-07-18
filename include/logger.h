@@ -15,23 +15,29 @@
 extern char logFlags;
 // L == Level; E = Enabled; F = File; P = LocationLogging
 // E|F| | | |P|L|L|
-#define LOGFlagEnabled	0b1 << 7
-#define LOGFlagFile		0b1 << 6
-//#define LOGFlagUnused	0b1 << 5
-//#define LOGFlagUnused	0b1 << 4
-//#define LOGFlagUnused	0b1 << 3
-#define LOGFlagLocation	0b1 << 2
+#define LOGFlagEnabled	(char)(0b1 << 7)
+#define LOGFlagFile		(char)(0b1 << 6)
+//#define LOGFlagUnused	(char)(0b1 << 5)
+//#define LOGFlagUnused	(char)(0b1 << 4)
+//#define LOGFlagUnused	(char)(0b1 << 3)
+#define LOGFlagLocation	(char)(0b1 << 2)
 
-#define LOGLevel			0b11
-#define LOGLevelAll		0b11
-#define LOGLevelMost		0b10
-#define LOGLevelMed		0b01
-#define LOGLevelMin		0b00
+#define LOGLevel		(char)(0b11)
+#define LOGLevelAll		(char)(0b11)
+#define LOGLevelMost	(char)(0b10)
+#define LOGLevelMed		(char)(0b01)
+#define LOGLevelMin		(char)(0b00)
 
+
+char getLogLevel();
+char logFlagEnabled(char feature);
+void setLogFlags(char flags);
 
 void setLogFlags(char flags);
 void openLogFile(char* filename, char forceEnableLogFile);
 void closeLogFile();
+void logToFile(char* fmt, ...);
+void vlogToFile(char *fmt, va_list args);
 
 
 void vlogColored(char* fmt, char* ansiCol, va_list args);
