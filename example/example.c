@@ -1,4 +1,5 @@
-#include "../include/logger.h"
+#include "../include/suclog.h"
+#include <time.h>
 
 int main(int argc, char* argv[])
 {
@@ -6,7 +7,12 @@ int main(int argc, char* argv[])
 	setLogFlags(LOGFlagEnabled |  LOGLevelAll);
 	// Sets the flags for the Logger.
 	
-	openLogFile("./example.log", 0b1); // Uncomment for Log-File (Remember to uncomment closing before returns).
+	time_t rawtime; time(&rawtime);
+	struct tm* timeinfo; timeinfo = localtime(&rawtime);
+
+	openLogFile("./example.log", 0b1);
+	logToFile("\n\n New Log Session %s\n", asctime(timeinfo)); //Placeholder until a suclog function for time is created.
+
 	if(argc != 5)
 	{
 		LogERR("%1$s expects 3 arguments. Example: '%1$s \"Msg\" \"Hint\" \"Warn\" \"Err\"'", argv[0]);
