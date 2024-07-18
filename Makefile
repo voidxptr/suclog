@@ -14,7 +14,9 @@ example: $(OBJ) example/example.o
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm *.o
-	rm test
+	rm *.o -f
+	rm **/*.o -f
+	rm *.log -f
+	rm test -f
 
 
