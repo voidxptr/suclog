@@ -1,5 +1,4 @@
 #include "../include/suclog.h"
-#include <time.h>
 
 int main(int argc, char* argv[])
 {
@@ -7,11 +6,10 @@ int main(int argc, char* argv[])
 	setLogFlags(LOGFlagEnabled |  LOGLevelAll);
 	// Sets the flags for the Logger.
 	
-	time_t rawtime; time(&rawtime);
-	struct tm* timeinfo; timeinfo = localtime(&rawtime);
-
 	openLogFile("./example.log", 0b1);
-	logToFile("\n\n New Log Session %s\n", asctime(timeinfo)); //Placeholder until a suclog function for time is created.
+
+	logTimeFileOnly();
+	logToFile("- - - - - New Log Session - - - - -\n");
 
 	if(argc != 5)
 	{

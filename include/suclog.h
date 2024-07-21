@@ -13,13 +13,13 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 extern char logFlags;
-// L == Level; E = Enabled; F = File; P = LocationLogging
-// E|F| | | |P|L|L|
+// L == Level; E = Enabled; F = File; P = LocationLogging; T = Time
+// E|F| | |T|P|L|L|
 #define LOGFlagEnabled	(char)(0b1 << 7)
 #define LOGFlagFile		(char)(0b1 << 6)
 //#define LOGFlagUnused	(char)(0b1 << 5)
 //#define LOGFlagUnused	(char)(0b1 << 4)
-//#define LOGFlagUnused	(char)(0b1 << 3)
+#define LOGFlagTime		(char)(0b1 << 3)
 #define LOGFlagLocation	(char)(0b1 << 2)
 
 #define LOGLevel		(char)(0b11)
@@ -30,7 +30,7 @@ extern char logFlags;
 
 
 char getLogLevel();
-char logFlagEnabled(char feature);
+char getLogFlag(char flag);
 void setLogFlags(char flags);
 
 void setLogFlags(char flags);
@@ -40,7 +40,14 @@ void logToFile(char* fmt, ...);
 void vlogToFile(char *fmt, va_list args);
 
 
+void logFmt(char* fmt, ...);
+void vlogFmt(char* fmt, va_list args);
+
+void logColored(char* fmt, char* ansiCol, ...);
 void vlogColored(char* fmt, char* ansiCol, va_list args);
+
+void logTime();
+void logTimeFileOnly();
 
 void logLocation(char* file, int line);
 void logMsg(char *fmt, ...);
