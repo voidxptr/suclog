@@ -1,4 +1,4 @@
-#include "../include/suclog.h"
+#include "../suclog.h"
 
 int main(int argc, char* argv[])
 {
